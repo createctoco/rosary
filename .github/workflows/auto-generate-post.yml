@@ -1,0 +1,159 @@
+name: "AI-AutoBlog Hugo - Auto Generate Blog Post"
+
+on:
+  schedule:
+    # Runs at 3:00 AM UTC daily (configurable in config.yaml, but workflow cron is set here)
+    - cron: "0 3 * * *"
+  workflow_dispatch:  # Manual trigger from GitHub UI
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # ============================================
+  # Job 1: Generate AI Blog Post
+  # ============================================
+  generate-post:
+    runs-on: ubuntu-latest
+    outputs:
+      has-new-post: ${{ steps.check.outputs.has_new_post }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.136.5'
+          extended: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pyyaml
+
+      - name: Read config.yaml
+        id: config
+        run: |
+          python3 -c "
+          import yaml
+          with open('config.yaml', 'r') as f:
+              config = yaml.safe_load(f)
+          # Get keywords
+          keywords = config.get('keywords', [])
+          print(f'Found {len(keywords)} keywords')
+          # Read already used keywords from posts
+          import os, glob
+          existing = set()
+          for md in glob.glob('content/posts/*.md'):
+              with open(md, 'r') as f:
+                  for line in f:
+                      if line.startswith('keyword:'):
+                          existing.add(line.split(':', 1)[1].strip().strip('\"').strip(\"'\"))
+          # Find next unused keyword
+          available = [k for k in keywords if k not in existing]
+          if not available:
+              available = keywords  # Start over if all used
+          keyword = available[0]
+          with open('scripts/generate-post.py', 'r') as f:
+              script = f.read()
+          script = script.replace('__KEYWORD__', keyword)
+          # Get review mode
+          review = config.get('review_mode', False)
+          print(f'keyword={keyword}')
+          print(f'review={str(review).lower()}')
+          # Get alibaba links
+          alibaba_store = config.get('alibaba_store_url', '')
+          alibaba_rosary = config.get('alibaba_rosary_url', '')
+          alibaba_cross = config.get('alibaba_cross_url', '')
+          auto_image = config.get('auto_image', True)
+          print(f'alibaba_store={alibaba_store}')
+          print(f'alibaba_rosary={alibaba_rosary}')
+          print(f'alibaba_cross={alibaba_cross}')
+          print(f'auto_image={str(auto_image).lower()}')
+          " > /tmp/config_output.txt 2>&1
+          cat /tmp/config_output.txt
+
+      - name: Generate blog post with AI
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_MODEL: ${{ secrets.AI_MODEL || 'deepseek-chat' }}
+          AI_BASE_URL: ${{ secrets.AI_BASE_URL || 'https://api.deepseek.com/v1' }}
+        run: python3 scripts/generate-post.py
+
+      - name: Check if new post was generated
+        id: check
+        run: |
+          if git diff --quiet content/posts/; then
+            echo "has_new_post=false" >> $GITHUB_OUTPUT
+            echo "No new post generated"
+          else
+            echo "has_new_post=true" >> $GITHUB_OUTPUT
+            echo "New post generated successfully"
+          fi
+
+      - name: Commit new post (auto-publish mode)
+        if: steps.check.outputs.has_new_post == 'true'
+        run: |
+          git config user.name "AI AutoBot"
+          git config user.email "autobot@users.noreply.github.com"
+          git add content/posts/
+          git commit -m "AI: Generate new blog post - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+
+      - name: Create Pull Request (review mode)
+        if: steps.check.outputs.has_new_post == 'true' && contains(steps.config.outputs.review, 'true')
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "AI Generated Post - $(date +'%Y-%m-%d')"
+          body: "Automatically generated blog post. Please review before merging."
+          branch: "ai-post-$(date +'%Y%m%d')"
+          commit-message: "AI: Generate new blog post - $(date +'%Y-%m-%d')"
+
+      - name: Push (auto-publish mode)
+        if: steps.check.outputs.has_new_post == 'true' && contains(steps.config.outputs.review, 'false')
+        run: git push
+
+  # ============================================
+  # Job 2: Build Hugo Site & Deploy to Pages
+  # ============================================
+  build-deploy:
+    needs: generate-post
+    if: always() && needs.generate-post.result == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          ref: ${{ github.ref }}
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.136.5'
+          extended: true
+
+      - name: Build Hugo site
+        run: hugo --minify
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          cname: ""  # Set your custom domain here, e.g. "blog.ctoco.com"

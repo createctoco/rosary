@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Hugo generated files
+public/
+resources/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Environment
+.env
+.env.local
