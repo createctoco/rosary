@@ -1,7 +1,8 @@
 name: "AI-AutoBlog Hugo"
-description: "Auto-generate SEO blog posts with DeepSeek/OpenAI for Hugo + GitHub Pages. Designed for catholic religious gifts B2B wholesale traffic to Alibaba."
-url: "https://github.com/yourusername/AI-AutoBlog-Hugo"
-author: "CTOCO"
+description: "Auto-generate SEO blog posts with DeepSeek/OpenAI for Hugo + GitHub Pages. "
+url: "[https://github.com/yourusername/AI-AutoBlog-Hugo](https://github.com/createctoco/rosary/)"
+author: "createctoco
+"
 
 keywords:
   - AI blog
