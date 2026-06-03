@@ -1,25 +1,24 @@
-{{- define "main" }}
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
     <header>
         <h1 class="post-title" itemprop="name headline">{{ .Title }}</h1>
-        {{ partial "meta.html" . }}
+        <div class="post-meta">
+            <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
+            {{ with .Params.tags }}<span class="post-tags">{{ range . }}#{{ . }} {{ end }}</span>{{ end }}
+        </div>
     </header>
     <div class="post-content" itemprop="articleBody">
         {{ .Content }}
     </div>
 
-    {{- /* Alibaba Footer Link - appears at bottom of every article */}}
-    {{- with .Site.Params.alibaba_store_url }}
-    <div class="alibaba-footer-link" style="margin:30px 0;padding:20px;background:#f5f5f5;border-radius:6px;border-left:4px solid #c81623;">
-        <p><strong>Looking for bulk catholic religious gifts, rosary, or cross pendants?</strong>
+    {{ with .Site.Params.alibaba_store_url }}
+    <div class="alibaba-footer-link">
+        <p><strong>Looking for wholesale catholic religious gifts, rosary, or cross pendants?</strong><br>
         We are a verified Alibaba supplier offering custom OEM, factory direct pricing, and worldwide shipping.</p>
-        <a href="{{ . }}" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:10px 20px;background:#ff4400;color:#fff;border-radius:4px;font-weight:bold;text-decoration:none;margin-top:10px;">Browse All Products on Alibaba.com</a>
+        <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="alibaba-footer-btn">Browse All Products on Alibaba.com</a>
     </div>
-    {{- end }}
+    {{ end }}
 
     <footer>
-        {{ partial "post_nav.html" . }}
-        {{ partial "comments.html" . }}
+        {{ with .Params.categories }}<div class="post-categories">Categories: {{ range . }}<a href="/categories/{{ urlize . }}/">{{ . }}</a> {{ end }}</div>{{ end }}
     </footer>
 </article>
-{{- end }}
