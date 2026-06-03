@@ -77,8 +77,7 @@ params:
   socialIcons:
     - name: "alibaba"
       url: "https://mecrt.en.alibaba.com/"
-    - name: "facebook"
-      url: "https://facebook.com/ctoco"
+
 
 # ============================================
 # MENU (Sidebar)
