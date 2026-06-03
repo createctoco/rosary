@@ -1,3 +1,6 @@
+      - name: Create posts directory
+        run: mkdir -p content/posts
+
 name: Auto Generate Blog Post
 
 on:
