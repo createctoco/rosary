@@ -8,5 +8,5 @@ headline = "Wholesale Catholic Rosary Beads & Religious Gifts"
 bio = "Your trusted source for wholesale catholic rosary beads, crucifix pendants, religious medals, and church supplies."
 links = [
   { alibaba = "https://mecrt.en.alibaba.com/" },
-  { facebook = "https://facebook.com/ctoco" }
+  { Website = "https://ctoco.com" }
 ]
