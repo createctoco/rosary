@@ -21,23 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: true
 
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-
-      - name: Install Python dependencies
-        run: pip install requests pyyaml
-
-      - name: Create directories
-        run: mkdir -p content/posts assets/images
-
-      # ---- 生成新文章（失败不阻断构建） ----
+      # ---- 生成新文章（失败不阻断） ----
       - name: Generate blog post
         id: generate
         env:
@@ -45,36 +33,52 @@ jobs:
           AI_MODEL: ${{ secrets.AI_MODEL }}
           AI_API_URL: ${{ secrets.AI_API_URL }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-        run: python scripts/generate-post.py
+        run: |
+          pip install requests pyyaml
+          python scripts/generate-post.py
         continue-on-error: true
 
-      # ---- 提交推送（带重试，失败不阻断构建） ----
+      # ---- 提交并推送新文章（带重试） ----
       - name: Commit and push new post
         if: steps.generate.outcome == 'success'
+        id: commit_push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add content/posts/ assets/images/
           if git diff --cached --quiet; then
             echo "No changes to commit"
-            exit 0
+          else
+            git commit -m "Auto generate blog post [skip ci]"
+            for i in 1 2 3 4 5; do
+              git pull --rebase origin main && git push && break
+              if [ $i -eq 5 ]; then
+                echo "All push attempts failed, resetting to origin/main"
+                git reset --hard origin/main
+                echo "pushed=false" >> $GITHUB_OUTPUT
+                exit 0
+              fi
+              echo "Push attempt $i failed, retrying in 15s..."
+              sleep 15
+            done
           fi
-          git commit -m "Auto generate blog post [skip ci]"
-          for i in $(seq 1 5); do
-            git pull --rebase origin main && git push && break
-            echo "Push attempt $i failed, retrying in 15s..."
-            sleep 15
-          done
+          echo "pushed=true" >> $GITHUB_OUTPUT
         continue-on-error: true
 
-      # ---- 无论生成是否成功，都重置到 origin/main 再构建 ----
+      # ---- 确保本地与 origin/main 一致 ----
       - name: Reset to origin/main (clean state for build)
         run: git reset --hard origin/main
+
+      # ---- 克隆 Blowfish 主题（不依赖子模块） ----
+      - name: Clone Blowfish theme
+        run: |
+          rm -rf themes/blowfish
+          git clone --depth 1 https://github.com/nunocoracao/blowfish.git themes/blowfish
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.161.0'
+          hugo-version: '0.147.0'
           extended: true
 
       - name: Build Hugo site
