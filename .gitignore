@@ -1,4 +1,8 @@
 .hugo_build.lock
 themes/blowfish/
-/*.zip
+/public/
+/resources/
+hugo.exe
+hugo-*.zip
+*.exe
 /tmp/
