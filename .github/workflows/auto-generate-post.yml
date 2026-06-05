@@ -17,7 +17,7 @@ permissions:
   contents: write
 
 jobs:
-  generate:
+  generate-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -37,34 +37,39 @@ jobs:
       - name: Create directories
         run: mkdir -p content/posts assets/images
 
+      # ---- 生成新文章（失败不阻断构建） ----
       - name: Generate blog post
+        id: generate
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           AI_MODEL: ${{ secrets.AI_MODEL }}
           AI_API_URL: ${{ secrets.AI_API_URL }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
         run: python scripts/generate-post.py
+        continue-on-error: true
 
+      # ---- 提交推送（带重试，失败不阻断构建） ----
       - name: Commit and push new post
+        if: steps.generate.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add content/posts/ assets/images/
-          # Only commit if there are staged changes
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
           fi
           git commit -m "Auto generate blog post [skip ci]"
-          # Retry pull+push up to 5 times to handle race conditions
           for i in $(seq 1 5); do
-            if git pull --rebase origin main && git push; then
-              echo "Push succeeded on attempt $i"
-              break
-            fi
+            git pull --rebase origin main && git push && break
             echo "Push attempt $i failed, retrying in 15s..."
             sleep 15
           done
+        continue-on-error: true
+
+      # ---- 无论生成是否成功，都重置到 origin/main 再构建 ----
+      - name: Reset to origin/main (clean state for build)
+        run: git reset --hard origin/main
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
