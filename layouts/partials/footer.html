@@ -1,15 +1,14 @@
 {{- /* Footer override: adds footer menu row + nofollow on outbound links */ -}}
 <footer class="py-6 sm:py-8 lg:py-10">
-  <div
-    class="{{ partial `helpers/container-class` }} overflow-x-clip">
+  <div class="{{ partial "helpers/container-class" }} overflow-x-clip">
 
-    {{- /* Footer menu row */ -}}
+    {{ /* Footer menu row */ }}
     <nav class="mb-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm">
-      <a href="{{- `/` | relURL -}}"
+      <a href="{{ `/` | relURL }}"
          class="text-neutral-600 hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400 transition-colors">
         Home
       </a>
-      <a href="{{- `posts/` | relURL -}}"
+      <a href="{{ `posts/` | relURL }}"
          class="text-neutral-600 hover:text-primary-600 dark:text-neutral-400 dark:hover:text-primary-400 transition-colors">
         Posts
       </a>
@@ -24,14 +23,14 @@
       </a>
     </nav>
 
-    {{- /* Copyright — do NOT add nofollow (ctoco.com is our own site) */ -}}
-    {{- if site.Params.copyright -}}
+    {{ /* Copyright — do NOT add nofollow (ctoco.com is our own site) */ }}
+    {{ if site.Params.copyright }}
     <div class="text-center text-xs text-neutral-500 dark:text-neutral-400 mb-2">
       {{ site.Params.copyright | safeHTML }}
     </div>
-    {{- end -}}
+    {{ end }}
 
-    {{- /* Powered by — add nofollow to outbound links */ -}}
+    {{ /* Powered by — add nofollow to outbound links */ }}
     <div class="text-center text-xs text-neutral-400 dark:text-neutral-500">
       Powered by
       <a href="https://gohugo.io"
@@ -47,10 +46,10 @@
       </a>
     </div>
 
-    </div>
+  </div>
 </footer>
 
-{{- /* Auto-add nofollow to outbound links (except ctoco.com / rosarysupply.com) */ -}}
+{{ /* Auto-add nofollow to outbound links (except ctoco.com / rosarysupply.com) */ }}
 <script>
   document.querySelectorAll('a[href^="http"]').forEach(function(link) {
     var href = link.getAttribute('href') || '';
