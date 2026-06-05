@@ -50,9 +50,21 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add content/posts/ assets/images/
-          git commit -m "Auto generate blog post [skip ci]" || echo "No changes to commit"
-          git pull --rebase origin main
-          git push
+          # Only commit if there are staged changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Auto generate blog post [skip ci]"
+          # Retry pull+push up to 5 times to handle race conditions
+          for i in $(seq 1 5); do
+            if git pull --rebase origin main && git push; then
+              echo "Push succeeded on attempt $i"
+              break
+            fi
+            echo "Push attempt $i failed, retrying in 15s..."
+            sleep 15
+          done
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
