@@ -156,7 +156,7 @@ def get_featured_image(keyword, pexels_api_key):
 # ============================================
 # Call DeepSeek API
 # ============================================
-def call_api(prompt, api_key, model, api_url):
+def call_api(prompt, api_key, model, api_url, temperature=0.85):
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
@@ -164,7 +164,7 @@ def call_api(prompt, api_key, model, api_url):
     payload = {
         "model": model,
         "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.7,
+        "temperature": temperature,
         "max_tokens": 2500
     }
     resp = requests.post(
@@ -182,31 +182,64 @@ def call_api(prompt, api_key, model, api_url):
 def build_title_prompt(keyword):
     return f"Generate a short, SEO-friendly blog post title about: {keyword}. Output ONLY the title, nothing else."
 
+def build_faq_prompt(keyword, title):
+    return f"""Generate 2-3 FAQ items (JSON-LD format) related to the blog post titled "{title}" with keyword "{keyword}".
+The topic is Catholic religious goods wholesale/B2B.
+Output ONLY valid JSON-LD for a FAQPage (schema.org format), no markdown, no explanation.
+Each question should sound like a real buyer would ask. Vary the wording each time.
+Example format:
+{{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{
+      "@type": "Question",
+      "name": "Actual buyer question here?",
+      "acceptedAnswer": {{
+        "@type": "Answer",
+        "text": "Natural sounding answer..."
+      }}
+    }}
+  ]
+}}
+"""
+
 def build_article_prompt(keyword, alibaba):
     products = alibaba["products"]
     store = alibaba["store"]
     product_list = "\n".join([f"  - {p}" for p in products]) if products else ""
 
-    return f"""You are a B2B SEO content writer for a Catholic rosary beads factory.
+    return f"""You are an experienced B2B content writer for a Catholic rosary beads factory.
+花撸AI味根除指令（必须严格执行）：
+- 禁止排比句、禁止排比句、禁止排比句（重要事说三遍）
+- 禁止在段落开头用「首先/其次/最后」「In conclusion」「To sum up」等模板词
+- 禁止每段字数高度一致（要有短段落，甚至单句成段）
+- 禁止用「Not only... but also」「Whether you... or」等工整句式
+- 允许口语化表达、允许句子不完整、允许语气词
+- 写作风格参考真实工厂老板/销售写的博客：直接、带点个人观点、偶尔跑题
+- 必须加入具体细节：工厂实际数字、某次出货经历、和客户沟通的细节
+- 段落长度随机：有的2-3句，有的只有1句，有的较长
+- 用「我们」而不是「该厂」「该工厂」
+- 可以适度使用反问句、感叹句
 
 IMPORTANT CONSTRAINT: This is a CATHOLIC/CHRISTIAN religious goods website.
 - ONLY write about Catholic and Christian religious items.
 - NEVER write about Islamic prayer beads (tasbih, misbaha), Buddhist mala, Hindu jewelry, or any non-Catholic/non-Christian religious topics.
-- If the keyword is about non-Catholic content, interpret it from a Catholic wholesale supplier's perspective ONLY, or write about a related Catholic product instead.
 
 Write a 900-1200 word English blog post targeting: {keyword}
 
 Requirements:
-- Professional B2B English, targeting wholesale buyers, importers, church procurement
-- Use Markdown format: ## for H2 headings, ### for H3 headings
-- Use proper Markdown: **bold**, *italic*, bullet lists with - or *
-- Include 4-6 sections with ## headings (each section 150-250 words)
+- B2B English, targeting wholesale buyers, importers, church procurement
+- Use Markdown: ## for H2, ### for H3
+- Do NOT follow a fixed structure — let the content flow naturally
+- Vary paragraph length wildly: some 1-sentence paragraphs, some long ones
+- Include 3-5 headings total (not always the same number)
 - Naturally mention the Alibaba store ({store}) and 2-3 product links in the body:
 {product_list}
-- End with a short conclusion section
-- Do NOT include a title (H1) - we add it separately
-- Do NOT include meta description or JSON-LD
-- Tone: informative, trust-building, suitable for B2B wholesale buyers
+- End with a conclusion, but keep it natural (no "In conclusion")
+- Do NOT include a title (H1) — we add it separately
+- Do NOT include meta description or JSON-LD (we add separately)
+- Tone: like a real factory owner writing — direct, personal, occasionally imperfect English is OK
 
 Output ONLY the article in Markdown format, no preamble.
 """
@@ -234,7 +267,7 @@ def slugify(text):
 # ============================================
 # Build Markdown File Content
 # ============================================
-def build_markdown(title, keyword, article_md, alibaba, featured_image):
+def build_markdown(title, keyword, article_md, alibaba, featured_image, faq_json):
     now = datetime.now(timezone.utc)
     date_str = now.strftime("%Y-%m-%d")
     time_str = now.strftime("%H%M%S")
@@ -267,31 +300,8 @@ def build_markdown(title, keyword, article_md, alibaba, featured_image):
     front_matter_lines.append('---')
     front_matter = '\n'.join(front_matter_lines)
 
-    # JSON-LD FAQ
-    faq = '<script type="application/ld+json">\n'
-    faq += '{\n'
-    faq += '  "@context": "https://schema.org",\n'
-    faq += '  "@type": "FAQPage",\n'
-    faq += '  "mainEntity": [\n'
-    faq += '    {\n'
-    faq += '      "@type": "Question",\n'
-    faq += '      "name": "Where can I buy wholesale catholic rosary beads?",\n'
-    faq += '      "acceptedAnswer": {\n'
-    faq += '        "@type": "Answer",\n'
-    faq += '        "text": "You can buy wholesale catholic rosary beads directly from factory on Alibaba. We supply churches, distributors, and retailers worldwide."\n'
-    faq += '      }\n'
-    faq += '    },\n'
-    faq += '    {\n'
-    faq += '      "@type": "Question",\n'
-    faq += '      "name": "Do you support custom rosary beads OEM?",\n'
-    faq += '      "acceptedAnswer": {\n'
-    faq += '        "@type": "Answer",\n'
-    faq += '        "text": "Yes, we support custom rosary beads with your logo, packaging, and material requirements. MOQ applies."\n'
-    faq += '      }\n'
-    faq += '    }\n'
-    faq += '  ]\n'
-    faq += '}\n'
-    faq += '</script>'
+    # Use dynamic FAQ from API, fallback to empty if generation failed
+    faq = faq_json.strip() if faq_json and faq_json.strip() else ""
 
     # CTA block in Markdown
     cta = "## Shop Wholesale Rosary Beads\n\n"
@@ -347,11 +357,30 @@ def main():
     # 3. Generate article (Markdown format for TOC compatibility)
     print("Generating article...")
     alibaba = get_alibaba(config)
-    article_md = call_api(build_article_prompt(keyword, alibaba), api_key, model, api_url)
+    article_md = call_api(build_article_prompt(keyword, alibaba), api_key, model, api_url, temperature=0.85)
+
+    # 3b. Generate FAQ dynamically
+    print("Generating FAQ...")
+    try:
+        faq_raw = call_api(build_faq_prompt(keyword, title), api_key, model, api_url, temperature=0.9)
+        # Extract JSON from possible markdown wrapping
+        faq_raw = faq_raw.strip()
+        if faq_raw.startswith("```"):
+            faq_raw = re.sub(r'^```[a-z]*\n|```$', '', faq_raw, flags=re.MULTILINE)
+        faq_json = faq_raw.strip()
+        # Validate it looks like JSON-LD
+        if not faq_json.startswith('{'):
+            faq_json = ""
+            print("Warning: FAQ output doesn't look like JSON, skipping")
+        else:
+            print("FAQ generated successfully")
+    except Exception as e:
+        print(f"Warning: FAQ generation failed: {e}")
+        faq_json = ""
 
     # 4. Save file
     os.makedirs("content/posts", exist_ok=True)
-    filepath, content = build_markdown(title, keyword, article_md, alibaba, featured_image)
+    filepath, content = build_markdown(title, keyword, article_md, alibaba, featured_image, faq_json)
 
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(content)
