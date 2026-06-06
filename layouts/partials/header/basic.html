@@ -1,11 +1,17 @@
 {{/* Override: sticky thin header bar, full-width深色背景 */}}
 <style>
-  /* 导航栏内容区全宽，覆盖 Blowfish container 限制 */
-  header .main-menu {
-    max-width: none !important;
-    width: 100% !important;
-    padding-left: 2rem;
-    padding-right: 2rem;
+  /* PC 端（≥1440px）限制最大宽度，移动端保持全宽自适应 */
+  @media (min-width: 1440px) {
+    header .main-menu {
+      max-width: 1440px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+    .container, .content, article, main {
+      max-width: 1440px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
   }
 </style>
 <header class="sticky top-0 z-50 bg-neutral-100 dark:bg-neutral-800 border-b border-neutral-300 dark:border-neutral-600 shadow-sm">
