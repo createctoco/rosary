@@ -227,8 +227,14 @@ def build_title_prompt(keyword):
 def build_faq_prompt(keyword, title):
     return f"""Generate 2-3 FAQ items (JSON-LD format) related to the blog post titled "{title}" with keyword "{keyword}".
 The topic is Catholic religious goods wholesale/B2B.
+
+Anti-AI rules for FAQ answers:
+- Do NOT start answers with "Yes, " or "Absolutely, " — get straight to the point
+- Use plain, conversational English — like a factory sales rep answering a buyer's question
+- Keep answers short: 1-3 sentences max
+- Include real numbers when relevant (e.g., MOQ, sizes, lead times)
+
 Output ONLY valid JSON-LD for a FAQPage (schema.org format), no markdown, no explanation.
-Each question should sound like a real buyer would ask. Vary the wording each time.
 Example format:
 {{
   "@context": "https://schema.org",
@@ -252,19 +258,62 @@ def build_article_prompt(keyword, alibaba):
     product_list = "\n".join([f"  - {p}" for p in products]) if products else ""
 
     return f"""You are an experienced B2B content writer for a Catholic rosary beads factory.
-花撸AI味根除指令（必须严格执行）：
-- 禁止排比句、禁止排比句、禁止排比句（重要事说三遍）
-- 禁止在段落开头用「首先/其次/最后」「In conclusion」「To sum up」等模板词
-- 禁止每段字数高度一致（要有短段落，甚至单句成段）
-- 禁止用「Not only... but also」「Whether you... or」等工整句式
-- 允许口语化表达、允许句子不完整、允许语气词
-- 写作风格参考真实工厂老板/销售写的博客：直接、带点个人观点、偶尔跑题
-- 必须加入具体细节：工厂实际数字、某次出货经历、和客户沟通的细节
-- 段落长度随机：有的2-3句，有的只有1句，有的较长
+
+=== 花撸AI味根除指令（必须严格执行，违反任何一条即为废稿） ===
+
+【禁止的 AI 高频固定句式 — 出现即废稿】
+- "in today's market" / "in today's competitive market" / "in the modern market"
+- "it's worth mentioning" / "it is worth noting" / "it's important to note"
+- "key advantage" / "stands out as" / "game-changer" / "must-have"
+- "ideal choice" / "perfect choice" / "excellent choice" / "go-to choice"
+- "elevate your" / "elevating your" / "enhance your" / "enhancing your"
+- "in the world of" / "in the realm of" / "in the landscape of"
+- "comprehensive guide" / "ultimate guide" / "complete guide"
+- "transform your" / "make a statement"
+- "timeless addition" / "timeless piece"
+- "whether you're X or Y" / "whether you are X or Y"
+- "not only X but also Y" (not only...but also 整个句式禁用)
+- "looking to" + verb (如 "looking to elevate", "looking to enhance")
+- "In conclusion" / "To sum up" / "In summary" / "All in all" / "Ultimately"
+- "首先/其次/最后" 等模板过渡词
+
+【句式打散规则 — 必须遵守】
+- 长短句穿插：有的句子5-8词，有的15-20词，不要每句都12-15词
+- 拆分长复合句：一个超过25词的句子，拆成2个短句
+- 偶尔用口语化补充，比如：
+  "Many catholic believers pick this handmade rosary for baptism gifts."
+  "We've been getting a lot of orders from parish gift shops lately."
+  "Honestly, the 8mm size outsells everything else by a mile."
+- 允许不完整句、反问句、感叹句，打破 AI 文本熵特征
+- 段落长度随机：有的2-3句，有的只有1句
+
+【排比句禁令】
+- 禁止连续3个以上结构相同的句子
+- 禁止每段字数高度一致
+
+【写作人设】
 - 用「我们」而不是「该厂」「该工厂」
+- 写作风格参考真实工厂老板/销售写的博客：直接、带点个人观点、偶尔跑题
 - 可以适度使用反问句、感叹句
 
-IMPORTANT CONSTRAINT: This is a CATHOLIC/CHRISTIAN religious goods website.
+=== 独家产品信息（必须自然植入，这是AI编不出来的独家数据，直接拉高E-E-A-T） ===
+
+每篇文案必须包含以下信息（至少提及3项，以自然方式融入上下文，不要硬塞列表）：
+1. 实木念珠用料 — 我们的念珠用的是天然实木，不是塑料或者树脂仿木
+2. 手工雕刻工艺 — 每颗珠子是手工打磨的，不是机器批量压出来的
+3. 念珠尺寸 — 念珠一般是8mm和10mm居多，6mm的也有但偏小，12mm偏大
+4. 绳结打法 — 可以打秘鲁结(Peruvian knot)，也可以打平结(flat knot)，看客户需求
+5. 定制 LOGO — 可以在吊牌或者包装上定制 LOGO，church name、parish name 都行
+6. 天主教使用场景 — 洗礼gift、初圣体、坚振、婚礼、葬礼追思、日常祈祷、玫瑰经团契
+7. 起订量 — 小批量 OEM 起订量是1200pcs，现货产品起订量是12pcs，数量越多越便宜
+
+植入示例（仅供参考风格，不要照抄）：
+- "Our wooden rosaries use real solid wood — not the plastic imitation stuff you see on cheap imports. Each bead is hand-carved and polished."
+- "The 8mm size? That's our best seller. 10mm comes close second. We can do Peruvian knot or flat knot — up to you."
+- "MOQ for OEM with your logo is 1200 pieces. For our in-stock items, you can start at just 12 pieces. Buy more, pay less."
+
+=== IMPORTANT CONSTRAINT ===
+This is a CATHOLIC/CHRISTIAN religious goods website.
 - ONLY write about Catholic and Christian religious items.
 - NEVER write about Islamic prayer beads (tasbih, misbaha), Buddhist mala, Hindu jewelry, or any non-Catholic/non-Christian religious topics.
 
@@ -278,7 +327,7 @@ Requirements:
 - Include 3-5 headings total (not always the same number)
 - Naturally mention the Alibaba store ({store}) and 2-3 product links in the body:
 {product_list}
-- End with a conclusion, but keep it natural (no "In conclusion")
+- End with a conclusion, but keep it natural (no "In conclusion" or similar AI clichés)
 - Do NOT include a title (H1) — we add it separately
 - Do NOT include meta description or JSON-LD (we add separately)
 - Tone: like a real factory owner writing — direct, personal, occasionally imperfect English is OK
