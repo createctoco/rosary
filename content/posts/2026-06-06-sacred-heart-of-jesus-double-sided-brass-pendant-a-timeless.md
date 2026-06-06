@@ -7,38 +7,39 @@ tags: ["wholesale", "catholic", "rosary", "B2B"]
 categories: ["Rosary Beads"]
 featureimage: "https://images.pexels.com/photos/9434900/pexels-photo-9434900.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 thumbnail: "https://images.pexels.com/photos/9434900/pexels-photo-9434900.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
----
 
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What makes the Sacred Heart of Jesus double sided brass pendant different from standard single-sided pendants, and is it suitable for bulk church gift shop orders?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The Sacred Heart of Jesus double sided brass pendant features a detailed embossed image on both sides, offering a more finished, high-quality look compared to single-sided pendants. It is an excellent choice for wholesale orders as the brass construction is durable and the reversible design appeals to customers looking for a timeless, versatile faith symbol."
+faqJson: |
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What makes the Sacred Heart of Jesus double sided brass pendant different from standard single-sided pendants, and is it suitable for bulk church gift shop orders?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Sacred Heart of Jesus double sided brass pendant features a detailed embossed image on both sides, offering a more finished, high-quality look compared to single-sided pendants. It is an excellent choice for wholesale orders as the brass construction is durable and the reversible design appeals to customers looking for a timeless, versatile faith symbol."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I order the Sacred Heart of Jesus double sided brass pendant in large quantities for my Catholic store, and do you offer custom packaging options for B2B clients?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, this Sacred Heart of Jesus double sided brass pendant is available for bulk wholesale orders. We accommodate B2B clients with volume pricing and can discuss custom packaging solutions, such as branded cards or gift boxes, to suit your retail needs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the Sacred Heart of Jesus double sided brass pendant made from solid brass and will it tarnish over time if I order a large batch for resale?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The pendant is crafted from solid brass with a protective coating to minimize tarnishing, ensuring it maintains its appearance for years. For wholesale orders, each piece is individually checked for quality, and we recommend storing them in a dry environment. This makes it a reliable and long-lasting item for Catholic religious goods resale."
+        }
       }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I order the Sacred Heart of Jesus double sided brass pendant in large quantities for my Catholic store, and do you offer custom packaging options for B2B clients?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, this Sacred Heart of Jesus double sided brass pendant is available for bulk wholesale orders. We accommodate B2B clients with volume pricing and can discuss custom packaging solutions, such as branded cards or gift boxes, to suit your retail needs."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is the Sacred Heart of Jesus double sided brass pendant made from solid brass and will it tarnish over time if I order a large batch for resale?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The pendant is crafted from solid brass with a protective coating to minimize tarnishing, ensuring it maintains its appearance for years. For wholesale orders, each piece is individually checked for quality, and we recommend storing them in a dry environment. This makes it a reliable and long-lasting item for Catholic religious goods resale."
-      }
-    }
-  ]
-}
+    ]
+  }
+---
 
 ## Brass Pendants That Last: Our Sacred Heart Double-Sided Design
 

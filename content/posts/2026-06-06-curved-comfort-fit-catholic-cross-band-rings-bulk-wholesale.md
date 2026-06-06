@@ -7,30 +7,31 @@ tags: ["wholesale", "catholic", "rosary", "B2B"]
 categories: ["Rosary Beads"]
 featureimage: "https://images.pexels.com/photos/10293323/pexels-photo-10293323.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 thumbnail: "https://images.pexels.com/photos/10293323/pexels-photo-10293323.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
----
 
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What makes the curved design comfort fit catholic cross band ring bulk wholesale different from standard flat band rings?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Our curved design comfort fit catholic cross band ring bulk wholesale features an ergonomic interior curve that mimics the natural shape of the finger, reducing pressure points and allowing easy slipping on and off. This makes them ideal for daily wear, and the bulk wholesale pricing ensures you get premium comfort at competitive rates for your parish store or religious gift shop."
+faqJson: |
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What makes the curved design comfort fit catholic cross band ring bulk wholesale different from standard flat band rings?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our curved design comfort fit catholic cross band ring bulk wholesale features an ergonomic interior curve that mimics the natural shape of the finger, reducing pressure points and allowing easy slipping on and off. This makes them ideal for daily wear, and the bulk wholesale pricing ensures you get premium comfort at competitive rates for your parish store or religious gift shop."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I order the curved design comfort fit catholic cross band ring bulk wholesale with custom engraving or packaging for my church group?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. We offer customization options including interior engraving of scripture verses or event dates, plus branded gift boxes for resale. The curved design comfort fit catholic cross band ring bulk wholesale minimum order is 50 pieces, and we can adjust sizing across S-3XL to cover your congregation’s needs. Contact our B2B team for a quote on personalized bulk runs."
+        }
       }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I order the curved design comfort fit catholic cross band ring bulk wholesale with custom engraving or packaging for my church group?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Absolutely. We offer customization options including interior engraving of scripture verses or event dates, plus branded gift boxes for resale. The curved design comfort fit catholic cross band ring bulk wholesale minimum order is 50 pieces, and we can adjust sizing across S-3XL to cover your congregation’s needs. Contact our B2B team for a quote on personalized bulk runs."
-      }
-    }
-  ]
-}
+    ]
+  }
+---
 
 ## Why You Should Take a Second Look at Curved Comfort Fit Catholic Rings
 

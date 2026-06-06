@@ -7,38 +7,39 @@ tags: ["wholesale", "catholic", "rosary", "B2B"]
 categories: ["Rosary Beads"]
 featureimage: "https://images.pexels.com/photos/4202997/pexels-photo-4202997.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 thumbnail: "https://images.pexels.com/photos/4202997/pexels-photo-4202997.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
----
 
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What's the minimum order quantity for the wholesale catholic gift basket filler mini rosary cross combo bulk?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "We typically require a minimum order of 50 units per SKU for the wholesale catholic gift basket filler mini rosary cross combo bulk, though we can adjust quantities for large volume orders."
+faqJson: |
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What's the minimum order quantity for the wholesale catholic gift basket filler mini rosary cross combo bulk?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We typically require a minimum order of 50 units per SKU for the wholesale catholic gift basket filler mini rosary cross combo bulk, though we can adjust quantities for large volume orders."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I get a sample of the mini rosary and cross combo before placing a bulk order?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we offer sample packs for the wholesale catholic gift basket filler mini rosary cross combo bulk. Samples are available at a discounted rate, and the cost is credited toward your first full bulk order."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer custom packaging or branding for bulk rosary and cross gift basket fillers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely, for our wholesale catholic gift basket filler mini rosary cross combo bulk orders, we provide custom packaging options including branded pouches, tags, or poly bags with your logo or church name, subject to volume minimums."
+        }
       }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I get a sample of the mini rosary and cross combo before placing a bulk order?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, we offer sample packs for the wholesale catholic gift basket filler mini rosary cross combo bulk. Samples are available at a discounted rate, and the cost is credited toward your first full bulk order."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do you offer custom packaging or branding for bulk rosary and cross gift basket fillers?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Absolutely, for our wholesale catholic gift basket filler mini rosary cross combo bulk orders, we provide custom packaging options including branded pouches, tags, or poly bags with your logo or church name, subject to volume minimums."
-      }
-    }
-  ]
-}
+    ]
+  }
+---
 
 We’ve been shipping rosaries and crosses out of our factory for over fifteen years now.  And one thing I notice every single time?  Buyers keep coming back for the same thing—mini rosary and cross combos, the kind you toss into gift baskets by the dozens.
 

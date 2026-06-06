@@ -7,38 +7,39 @@ tags: ["wholesale", "catholic", "rosary", "B2B"]
 categories: ["Rosary Beads"]
 featureimage: "https://images.pexels.com/photos/12351396/pexels-photo-12351396.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 thumbnail: "https://images.pexels.com/photos/12351396/pexels-photo-12351396.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
----
 
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is the minimum order quantity for the gold plated small miraculous medal baby baptism pendant in bulk?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "For wholesale orders of the gold plated small miraculous medal baby baptism pendant, our minimum order quantity is typically 50 pieces. However, we can discuss lower quantities for first-time buyers or special church group requests. Contact our B2B team for custom pricing on larger bulk orders."
+faqJson: |
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the minimum order quantity for the gold plated small miraculous medal baby baptism pendant in bulk?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For wholesale orders of the gold plated small miraculous medal baby baptism pendant, our minimum order quantity is typically 50 pieces. However, we can discuss lower quantities for first-time buyers or special church group requests. Contact our B2B team for custom pricing on larger bulk orders."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I get a sample of the gold plated small miraculous medal baby baptism pendant before placing a bulk order?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we do offer sample pendants for wholesale buyers. You can order a single gold plated small miraculous medal baby baptism pendant sample to check the quality, finish, and size. The sample cost is typically deductable from your first bulk order of 100 or more units."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer custom packaging for bulk orders of the gold plated small miraculous medal baby baptism pendant?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. For B2B customers ordering 200 or more gold plated small miraculous medal baby baptism pendants, we offer custom branded packaging options including velvet pouches, gift boxes, or prayer card inserts. We can also include your parish or store logo on the packaging for an additional setup fee."
+        }
       }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I get a sample of the gold plated small miraculous medal baby baptism pendant before placing a bulk order?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, we do offer sample pendants for wholesale buyers. You can order a single gold plated small miraculous medal baby baptism pendant sample to check the quality, finish, and size. The sample cost is typically deductable from your first bulk order of 100 or more units."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do you offer custom packaging for bulk orders of the gold plated small miraculous medal baby baptism pendant?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Absolutely. For B2B customers ordering 200 or more gold plated small miraculous medal baby baptism pendants, we offer custom branded packaging options including velvet pouches, gift boxes, or prayer card inserts. We can also include your parish or store logo on the packaging for an additional setup fee."
-      }
-    }
-  ]
-}
+    ]
+  }
+---
 
 ## Gold Plated Small Miraculous Medal Baby Baptism Pendant Bulk – What to Know Before You Order
 

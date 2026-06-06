@@ -297,11 +297,16 @@ def build_markdown(title, keyword, article_md, alibaba, featured_image, faq_json
     if featured_image:
         front_matter_lines.append(f'featureimage: "{featured_image}"')
         front_matter_lines.append(f'thumbnail: "{featured_image}"')
+    # Store FAQ JSON in front matter (YAML multiline string)
+    if faq_json and faq_json.strip():
+        front_matter_lines.append('faqJson: |')
+        for line in faq_json.strip().split('\n'):
+            front_matter_lines.append('  ' + line)
     front_matter_lines.append('---')
     front_matter = '\n'.join(front_matter_lines)
 
-    # Use dynamic FAQ from API, fallback to empty if generation failed
-    faq = faq_json.strip() if faq_json and faq_json.strip() else ""
+    # FAQ is now in front matter; do NOT put <script> tag in body
+    faq = ""
 
     # CTA block in Markdown
     cta = "## Shop Wholesale Rosary Beads\n\n"

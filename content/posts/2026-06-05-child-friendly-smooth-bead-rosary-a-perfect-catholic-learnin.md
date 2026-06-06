@@ -9,6 +9,7 @@ featureimage: "https://images.pexels.com/photos/5206872/pexels-photo-5206872.jpe
 thumbnail: "https://images.pexels.com/photos/5206872/pexels-photo-5206872.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
 ---
 
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -39,6 +40,7 @@ thumbnail: "https://images.pexels.com/photos/5206872/pexels-photo-5206872.jpeg?a
     }
   ]
 }
+</script>
 
 ## Why We Started Making Child-Friendly Rosaries (And Why You Should Stock Them)
 

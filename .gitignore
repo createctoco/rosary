@@ -7,3 +7,4 @@ hugo.exe
 hugo-*.zip
 *.exe
 /tmp/
+scripts/__pycache__/
