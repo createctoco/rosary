@@ -4,6 +4,10 @@ title = "Catholic Religious Gifts Guide - RosarySupply"
 theme = "blowfish"
 enableGitInfo = false
 
+# 分页：每页显示文章数
+[pagination]
+  size = 9
+
 # 开启 Sitemap 输出（Hugo 原生生成 sitemap.xml）
 [outputs]
 home = ["HTML", "RSS", "Sitemap"]
